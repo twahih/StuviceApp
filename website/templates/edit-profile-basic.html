@@ -1,0 +1,673 @@
+{% extends "Base.html" %} 
+
+<!DOCTYPE html>
+<html lang="en">
+  <!--Header End-->
+  {% block head %}
+  {{ super() }}
+<!-- Additional stylesheets or scripts for this page -->
+{% endblock %}
+
+
+{% block scripts %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+      <!-- Timeline
+      ================================================= -->
+      <div class="timeline">
+        <div class="timeline-cover">
+
+          <!--Timeline Menu for Large Screens-->
+          <div class="timeline-nav-bar hidden-sm hidden-xs">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="profile-info">
+                  <img src="http://placehold.it/300x300" alt="" class="img-responsive profile-photo" />
+                  <h3>{{user.firstname}}  {{user.lastname}}</h3>
+                  <p class="text-muted">Creative Director</p>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <ul class="list-inline profile-menu">
+                  <li><a href="timeline.html">Timeline</a></li>
+                  <li><a href="timeline-about.html" class="active">About</a></li>
+                  <li><a href="timeline-album.html">Album</a></li>
+                  <li><a href="timeline-friends.html">Friends</a></li>
+                </ul>
+                <ul class="follow-me list-inline">
+                  <li>1,299 people following her</li>
+                  <li><button class="btn-primary">Add a Service</button></li>
+                </ul>
+              </div>
+            </div>
+          </div><!--Timeline Menu for Large Screens End-->
+
+          <!--Timeline Menu for Small Screens-->
+          <div class="navbar-mobile hidden-lg hidden-md">
+            <div class="profile-info">
+              <img src="http://placehold.it/300x300" alt="" class="img-responsive profile-photo" />
+              <h4>{{user.firstname}}  {{user.lastname}}</h4>
+              <p class="text-muted">Creative Director</p>
+            </div>
+            <div class="mobile-menu">
+              <ul class="list-inline">
+                <li><a href="timline.html">Timeline</a></li>
+                <li><a href="timeline-about.html" class="active">About</a></li>
+                <li><a href="timeline-album.html">Album</a></li>
+                <li><a href="timeline-friends.html">Friends</a></li>
+              </ul>
+              <button class="btn-primary">Add Friend</button>
+            </div>
+          </div><!--Timeline Menu for Small Screens End-->
+
+        </div>
+        <div id="page-contents">
+          <div class="row">
+
+
+
+            <div class="col-md-3">
+              <!--Edit Profile Menu-->
+              <ul class="edit-menu">
+                <li><i class="icon ion-ios-information-outline"></i><a data-toggle="tab" href="#basic-info">Basic Information</a></li>
+                <li><i class="icon ion-ios-briefcase-outline"></i><a data-toggle="tab" href="#edu-work">Education and Work</a></li>
+                <li><i class="icon ion-ios-briefcase-outline"></i><a data-toggle="tab" href="#services">My Services</a></li>
+                <li class="active"><i class="icon ion-ios-settings"></i><a data-toggle="tab" href="#acct-settings">Account Settings</a></li>
+                <li><i class="icon ion-ios-locked-outline"></i><a data-toggle="tab" href="#change-pass">Change Password</a></li>
+              </ul>
+            </div>
+
+
+  <div class="col-md-7">
+    <div class="tab-content">
+    <!-- Basic Information
+    ================================================= -->
+    <div class="row tab-pane" id="basic-info">
+      <div class="block-title">
+        <h4 class="grey"><i class="icon ion-android-checkmark-circle"></i> Edit basic information</h4>
+        <div class="line"></div>
+        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+        <div class="line"></div>
+      </div>
+      <div class="edit-block">
+        <form name="basic-info" id="basic-info" class="form-inline" method="POST" action="{{ url_for('auth.update_basic_info') }}">
+          <div class="row">
+            <div class="form-group col-xs-6">
+              <label for="firstname">First name</label>
+              <input id="firstname" class="form-control input-group-lg" type="text" name="firstname" title="Enter first name" placeholder="First name" value="{{user.firstname}}" required/>
+            </div>
+            <div class="form-group col-xs-6">
+              <label for="lastname" class="">Last name</label>
+              <input id="lastname" class="form-control input-group-lg" type="text" name="lastname" title="Enter last name" placeholder="Last name" value="{{user.lastname}}" required/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="email">My email</label>
+              <input id="email" class="form-control input-group-lg" type="text" name="email" title="Enter Email" placeholder="My Email" value="{{user.email}}" readonly/>
+            </div>
+          </div>
+          <div class="row">
+            <p class="custom-label"><strong>Date of Birth</strong></p>
+            <div class="form-group col-sm-3 col-xs-6">
+              <label for="month" class="sr-only"></label>
+              <select class="form-control" id="day" name = "day">
+                <option value="Day">Day</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option selected>19</option>
+                <option>20</option>
+                <option>21</option>
+                <option>22</option>
+                <option>23</option>
+                <option>24</option>
+                <option>25</option>
+                <option>26</option>
+                <option>27</option>
+                <option>28</option>
+                <option>29</option>
+                <option>30</option>
+                <option>31</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-3 col-xs-6">
+              <label for="month" class="sr-only"></label>
+              <select class="form-control" id="month" name = "month">
+                <option value="month">Month</option>
+                <option>Jan</option>
+                <option>Feb</option>
+                <option>Mar</option>
+                <option>Apr</option>
+                <option>May</option>
+                <option>Jun</option>
+                <option>Jul</option>
+                <option>Aug</option>
+                <option>Sep</option>
+                <option>Oct</option>
+                <option>Nov</option>
+                <option selected>Dec</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-6 col-xs-12">
+              <label for="year" class="sr-only"></label>
+              <select class="form-control" id="year" name="year">
+                <option value="year">Year</option>
+                <option selected>2000</option>
+                <option>2001</option>
+                <option>2002</option>
+                <option>2004</option>
+                <option>2005</option>
+                <option>2006</option>
+                <option>2007</option>
+                <option>2008</option>
+                <option>2009</option>
+                <option>2010</option>
+                <option>2011</option>
+                <option>2012</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group gender">
+            <span class="custom-label"><strong>I am a: </strong></span>
+            <label class="radio-inline">
+              <input type="radio" name="gender" checked>Male
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="gender">Female
+            </label>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-6">
+              <label for="phone" class="sr-only">Phone</label>
+              <input id="phone" class="form-control input-group-lg reg_name" type="tel" name="phone" title="Enter phone number" value="{{user.phone}}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required/>
+            </div>
+            <div class="form-group col-xs-6">
+              <label for="country">School</label>
+              <select class="form-control" id="school" name = "school" required>
+                <option value="{{user.school}}" selected>{{user.school}}</option>
+                <option value="Northeastern University">Northeastern University</option>
+                <option value="Boston College">Boston College</option>
+                <option value="Hervard">Hervard University</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="my-info">About me</label>
+              <textarea id="my-info" name="aboutme" class="form-control" placeholder="Some texts about me" rows="4" cols="400">{{user.about_me}}</textarea>
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Save Changes</button>
+        </form>
+      </div>
+    </div>
+    <!--End of edit basic info -->
+              <!--Acoount settings-->
+              <div class="row tab-pane active" id="acct-settings">
+                <div class="block-title">
+                  <h4 class="grey"><i class="icon ion-ios-settings"></i> Account Settings</h4>
+                  <div class="line"></div>
+                  <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+                  <div class="line"></div>
+                </div>
+                <div class="edit-block">
+                  <div class="settings-block">
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <div class="switch-description">
+                          <div><strong>Enable follow me</strong></div>
+                          <p>Enable this if you want people to follow you</p>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="toggle-switch">
+                          <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <div class="settings-block">
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <div class="switch-description">
+                          <div><strong>Send me notifications</strong></div>
+                          <p>Send me notification emails my friends like, share or message me</p>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="toggle-switch">
+                          <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <div class="settings-block">
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <div class="switch-description">
+                          <div><strong>Text messages</strong></div>
+                          <p>Send me messages to my cell phone</p>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="toggle-switch">
+                          <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <div class="settings-block">
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <div class="switch-description">
+                          <div><strong>Enable tagging</strong></div>
+                          <p>Enable my friends to tag me on their posts</p>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="toggle-switch">
+                          <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="line"></div>
+                  <div class="settings-block">
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <div class="switch-description">
+                          <div><strong>Enable sound</strong></div>
+                          <p>You'll hear notification sound when someone sends you a private message</p>
+                        </div>
+                      </div>
+                      <div class="col-sm-3">
+                        <div class="toggle-switch">
+                          <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--End of profile setting-->
+            
+              <!-- Change Password
+              ================================================= -->
+              <div class="row tab-pane" id="change-pass">
+                <div class="block-title">
+                  <h4 class="grey"><i class="icon ion-ios-locked-outline"></i> Change Password</h4>
+                  <div class="line"></div>
+                  <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue.</p>
+                  <div class="line"></div>
+                </div>
+                <div class="edit-block">
+                  <form name="update-pass" id="education" class="form-inline">
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="my-password">Old password</label>
+                        <input id="my-password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Old password"/>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label>New password</label>
+                        <input class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="New password"/>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label>Confirm password</label>
+                        <input class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Confirm password"/>
+                      </div>
+                    </div>
+                    <p><a href="#">Forgot Password?</a></p>
+                    <button class="btn btn-primary">Update Password</button>
+                  </form>
+                </div>
+              </div>
+            <!--End of change password--> 
+          
+<!-- Edit services
+================================================= -->
+<div class="row tab-pane" id="services">
+  <div class="block-title">
+    <h4 class="grey"><i class="icon ion-ios-briefcase-outline"></i> Services</h4>
+    <div class="line"></div>
+    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+    <div class="line"></div>
+  </div>
+  <div class="edit-block">       
+
+    <ul class="list-inline interests" style="white-space: nowrap; overflow-x: scroll;">
+      <li class="btn btn-default" data-category="Tutoring"><i class="icon ion-ios-book"></i> Tutoring</li>
+      <li class="btn btn-default" data-category="Laundry"><i class="icon ion-tshirt"></i> Laundry</li>
+      <li class="btn btn-default" data-category="Cleaning"><i class="icon ion-waterdrop"></i> Cleaning</li>
+      <li class="btn btn-default" data-category="Transport"><i class="icon ion-android-car"></i> Transport</li>
+      <li class="btn btn-default" data-category="Haircut"><i class="icon ion-scissors"></i> Haircut</li>
+      <li class="btn btn-default" data-category="Moving"><i class="icon ion-ios-box"></i> Moving</li>
+      <li class="btn btn-default" data-category="Personal-trainer"><i class="icon ion-person"></i> Personal Trainer</li>
+      <li class="btn btn-default" data-category="Others"><i class="icon ion-plus"></i> Others</li>
+    </ul>
+
+    <div class="line"></div>
+    <div class="row">
+      <form name="add_service_form" id='user_service_form'  method="POST" action="{{ url_for('auth.add_service') }}">
+        <div class="form-group col-sm-12">
+          <div class="category-input">
+            <label for="service-category">Category:</label>
+            <input id="service-category"  class="form-control input-group-lg" type="text" name="service_category" title="Service Category" readonly required/>
+          </div>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <label for="service-name">Service Name:</label>
+          <input id="service-name" class="form-control input-group-lg" type="text" name="service_name" title="Service Name"  placeholder="Enter service name" required/>
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="service-price">Service Price:</label>
+          <input id="service-price" class="form-control input-group-lg" type="text" name="service_price" pattern="[0-9]+([,.][0-9]+)?" title="Service Price" placeholder="Enter service price" required/>
+        </div>
+        <div class="form-group col-sm-12">
+          <label for="service-description">Service Description:</label>
+          <textarea id="service-description" class="form-control" rows="5" name="service_description" placeholder="Enter service description" required></textarea>
+        </div>
+        <div class="form-group col-sm-12">
+          <input type="hidden" name="service_category" id="service-category" value=""/>
+          <button class="btn btn-primary" id="add-service">Add</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!--End of edit services-->
+<script>
+// Get all the interest buttons
+var interestButtons = document.querySelectorAll('.interests li');
+
+// Add a click event listener to each button
+interestButtons.forEach(function(button) {
+  button.addEventListener('click', function() {
+    // Set the value of the service-category input to the category of the selected button
+    document.getElementById('service-category').value = this.getAttribute('data-category');
+
+    // Remove the active class from all buttons
+    interestButtons.forEach(function(button) {
+      button.classList.remove('active');
+    });
+
+    // Add the active class to the selected button
+    this.classList.add('active');
+  });
+});
+
+
+</script>
+
+
+
+        <!-- Edit Work and Education
+    ================================================= -->
+    <div class="row tab-pane" id="edu-work">
+      <div class="block-title">
+        <h4 class="grey"><i class="icon ion-ios-book-outline"></i> My education</h4>
+        <div class="line"></div>
+        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+        <div class="line"></div>
+      </div>
+      <div class="edit-block">
+        <form name="education" id="education" class="form-inline">
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="school">My university</label>
+              <input id="school" class="form-control input-group-lg" type="text" name="school" title="Enter School" placeholder="My School" value="Harvard Unversity" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-6">
+              <label for="date-from">From</label>
+              <input id="date-from" class="form-control input-group-lg" type="text" name="date" title="Enter a Date" placeholder="from" value="2012" />
+            </div>
+            <div class="form-group col-xs-6">
+              <label for="date-to" class="">To</label>
+              <input id="date-to" class="form-control input-group-lg" type="text" name="date" title="Enter a Date" placeholder="to" value="2016" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="edu-description">Description</label>
+              <textarea id="edu-description" name="description" class="form-control" placeholder="Some texts about my education" rows="4" cols="400">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="graduate">Graduated?:-</label>
+              <input id="graduate" type="checkbox" name="graduate" value="graduate" checked> Yes!! 
+            </div>
+          </div>
+          <button class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+      <div class="block-title">
+        <h4 class="grey"><i class="icon ion-ios-briefcase-outline"></i>Work Experiences</h4>
+        <div class="line"></div>
+        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+        <div class="line"></div>
+      </div>
+      <div class="edit-block">
+        <form name="work" id="work" class="form-inline">
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="company">Company</label>
+              <input id="company" class="form-control input-group-lg" type="text" name="company" title="Enter Company" placeholder="Company name" value="Envato Inc" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="designation">Designation</label>
+              <input id="designation" class="form-control input-group-lg" type="text" name="designation" title="Enter designation" placeholder="designation name" value="Exclusive Author" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-6">
+              <label for="from-date">From</label>
+              <input id="from-date" class="form-control input-group-lg" type="text" name="date" title="Enter a Date" placeholder="from" value="2016" />
+            </div>
+            <div class="form-group col-xs-6">
+              <label for="to-date" class="">To</label>
+              <input id="to-date" class="form-control input-group-lg" type="text" name="date" title="Enter a Date" placeholder="to" value="Present" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="work-city">City/Town</label>
+              <input id="work-city" class="form-control input-group-lg" type="text" name="city" title="Enter city" placeholder="Your city" value="Melbourne"/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12">
+              <label for="work-description">Description</label>
+              <textarea id="work-description" name="description" class="form-control" placeholder="Some texts about my work" rows="4" cols="400">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</textarea>
+            </div>
+          </div>
+          <button class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
+
+    </div>
+  </div>
+
+  
+
+  <!--END OF ALL EDIT FORM-->
+
+            <div class="col-md-2 static">
+              
+              <!--Sticky Timeline Activity Sidebar-->
+              <div id="sticky-sidebar">
+                <h4 class="grey">Sarah's activity</h4>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Sarah</a> Commended on a Photo</p>
+                    <p class="text-muted">5 mins ago</p>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Sarah</a> Has posted a photo</p>
+                    <p class="text-muted">an hour ago</p>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Sarah</a> Liked her friend's post</p>
+                    <p class="text-muted">4 hours ago</p>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Sarah</a> has shared an album</p>
+                    <p class="text-muted">a day ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Footer
+    ================================================= -->
+    <footer id="footer">
+      <div class="container">
+      	<div class="row">
+          <div class="footer-wrapper">
+            <div class="col-md-3 col-sm-3">
+              <a href=""><img src="images/logo-black.png" alt="" class="footer-logo" /></a>
+              <ul class="list-inline social-icons">
+              	<li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+              </ul>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <h5>For individuals</h5>
+              <ul class="footer-links">
+                <li><a href="">Signup</a></li>
+                <li><a href="">login</a></li>
+                <li><a href="">Explore</a></li>
+                <li><a href="">Finder app</a></li>
+                <li><a href="">Features</a></li>
+                <li><a href="">Language settings</a></li>
+              </ul>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <h5>For businesses</h5>
+              <ul class="footer-links">
+                <li><a href="">Business signup</a></li>
+                <li><a href="">Business login</a></li>
+                <li><a href="">Benefits</a></li>
+                <li><a href="">Resources</a></li>
+                <li><a href="">Advertise</a></li>
+                <li><a href="">Setup</a></li>
+              </ul>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <h5>About</h5>
+              <ul class="footer-links">
+                <li><a href="">About us</a></li>
+                <li><a href="">Contact us</a></li>
+                <li><a href="">Privacy Policy</a></li>
+                <li><a href="">Terms</a></li>
+                <li><a href="">Help</a></li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-sm-3">
+              <h5>Contact Us</h5>
+              <ul class="contact">
+                <li><i class="icon ion-ios-telephone-outline"></i>+1 (234) 222 0754</li>
+                <li><i class="icon ion-ios-email-outline"></i>info@thunder-team.com</li>
+                <li><i class="icon ion-ios-location-outline"></i>228 Park Ave S NY, USA</li>
+              </ul>
+            </div>
+          </div>
+      	</div>
+      </div>
+      <div class="copyright">
+        <p>Thunder Team © 2016. All rights reserved</p>
+      </div>
+		</footer>
+    
+    <!--preloader-->
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts
+    ================================================= -->
+    {% block javascript %}  
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&callback=initMap"></script>
+
+	<!-- Your other head tags here -->
+	
+	<!-- jQuery -->
+	<script src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+	
+	<!-- Bootstrap -->
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	
+	<!-- jQuery Appear -->
+	<script src="{{ url_for('static', filename='js/jquery.appear.min.js') }}"></script>
+	
+	<!-- Incremental Counter -->
+	<script src="{{ url_for('static', filename='js/jquery.incremental-counter.js') }}"></script>
+	
+	<!-- Custom Script -->
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+ {%endblock%}
+
+  </body>
+  {%endblock%}
+</html>

@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head> {% block head %}
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="This is social network html5 template available in themeforest......" />
+		<meta name="keywords" content="Social Network, Social Media, Make Friends, Newsfeed, Profile Page" />
+		<meta name="robots" content="index, follow" />
+		<title>News Feed | Check what your friends are doing</title>
+
+    <!-- Stylesheets
+    ================================================= -->
+		<link rel="stylesheet" href= "{{url_for('static', filename = 'css/bootstrap.min.css')}}" />
+		<link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}" />
+    <link rel="stylesheet" href= "{{url_for('static', filename = 'css/ionicons.min.css')}}" />
+    <link rel="stylesheet" href= "{{url_for('static', filename = 'css/font-awesome.min.css')}}" />
+    <link href="{{url_for('static', filename = 'css/emoji.css')}}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+  
+    
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+    
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/png" href="images/fav.png"/>
+
+
+
+    
+
+    
+	</head>
+  <body>
+
+    <!-- Header
+    ================================================= -->
+		<header id="header">
+      <nav class="navbar navbar-default navbar-fixed-top menu">
+        <div class="container">
+
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index-register.html"><img src= "{{url_for('static', filename = 'images/logo.png')}}" alt="logo" /></a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right main-menu">
+              <li class="dropdown"><a href= "{{ url_for('views.user') }}">Home</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Notification <span><img src="images/down-arrow.png" alt="" /></span></a>
+                <ul class="dropdown-menu newsfeed-home">
+                  <li><a href="newsfeed.html">Messages</a></li>
+                  <li><a href="newsfeed.html">Notification</a></li>
+                  <li><a href="newsfeed-people-nearby.html">Poeple Nearly</a></li>
+                  <li><a href="newsfeed-friends.html">My friends</a></li>
+                  <li><a href="newsfeed-messages.html">Chatroom</a></li>
+                  <li><a href="newsfeed-images.html">Images</a></li>
+                  <li><a href="newsfeed-videos.html">Videos</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span><img src="images/down-arrow.png" alt="" /></span></a>
+                <ul class="dropdown-menu login">
+                  <li><a href="{{ url_for('views.settings') }}">Edit: Basic Info</a></li>
+                  <li><a href="{{ url_for('views.settings') }}">Edit: Work</a></li>
+                  <li><a href="{{ url_for('views.settings') }}">Edit: Interests</a></li>
+                  <li><a href="{{ url_for('views.settings') }}">Account Settings</a></li>
+                  <li><a href="{{ url_for('views.settings') }}">Change Password</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown"><a href= "{{ url_for('views.logout') }}">Logout</a></li>
+            </ul>
+            <form class="navbar-form navbar-right hidden-sm">
+
+              <div class="form-group">
+                <i class="icon ion-android-search"></i>
+                <input id="search-input" class="form-control" type="text" name="search_term" placeholder="Enter search term"  data-url="{{ url_for('views.search_users') }}" data-user-profile-url="{{ url_for('views.user_profile', user_id=0) }}">
+
+
+                <div id="search-results">
+                </div>
+              </div>
+<style>
+.result {
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  margin-bottom: 5px;
+
+  position: absolute;
+  z-index: 999;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+
+
+</style>
+
+<script>
+  $(document).ready(function() {
+    const searchInput = $('#search-input');
+    const searchResults = $('#search-results');
+    const searchUrl = searchInput.data('url');
+    const userProfileUrl = searchInput.data('user-profile-url');
+  
+    searchInput.on('keyup', function() {
+      console.log("Key up event detected");
+  
+      $.ajax({
+        url: searchUrl,
+        data: {'search': searchInput.val()},
+        type: 'POST',
+        dataType: 'json',
+        success: function(response) {
+          let html = '';
+  
+          $.each(response.users, function(index, user_profile) {
+            const userUrl = userProfileUrl.replace('0', user_profile.user_id);
+            html += `<div class="follow-user result"><img src="http://placehold.it/300x300" alt="" class="profile-photo-sm pull-left" /><div><h5><a href="${userUrl}">${user_profile.firstname} ${user_profile.lastname}</a></h5><a href="#" class="text-green">Add friend</a></div></div>`;
+          });
+          searchResults.html(html);
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    });
+  
+    searchInput.on('blur', function() {
+      searchResults.show();
+    });
+  
+    searchInput.on('focus', function() {
+      searchResults.show();
+    });
+  });
+  </script>
+  
+
+
+            </form>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+      </nav>
+    </header>
+    <!--Header End-->
+    {% endblock %}
+
+<!--handle all flashed messages -->
+<!-- Handle all flashed messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <!-- Modal -->
+    <div class="modal fade" id="flashMessagesModal" tabindex="-1" role="dialog" aria-labelledby="flashMessagesModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="flashMessagesModalLabel">Alert</h4>
+          </div>
+          <div class="modal-body">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>{{ category|capitalize }}:</strong> {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Trigger the modal with JavaScript -->
+    <script>
+      $(document).ready(function() {
+        $('#flashMessagesModal').modal('show');
+      });
+    </script>
+    <!-- Custom CSS -->
+    <style>
+      .modal-title {
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      .alert {
+        font-size: 1.1em;
+      }
+
+      .alert strong {
+        font-weight: bold;
+      }
+    </style>
+  {% endif %}
+{% endwith %}
+
+<div id="notification-icon">
+  <i class="fa fa-bell-o"></i>
+  {% if current_user.unread_notification_count() > 0 %}
+      <span class="badge">{{ current_user.unread_notification_count() }}</span>
+  {% endif %}
+</div>
+
+<div id="notification-box" class="hidden">
+    <div class="notification-header">
+        <h4>Notifications</h4>
+        <button class="close-btn">&times;</button>
+    </div>
+    <div class="notification-body col-md-12">
+    {% for notification in user.all_notifications() %}
+      <div class="notification-item  {% if not notification.is_read %} notification-unread{% endif %}" data-notification-id="{{ notification.notification_id }}">
+        <div class="row ">
+          <div class="col-md-2">
+            <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+          </div>
+          <div class="col-md-10">
+            <div class="notification-details">
+              <h5><a href="{{ url_for('views.user_profile', user_id=notification.sender.user_id) }}">{{ notification.sender.firstname }} {{ notification.sender.lastname }}</a></h5>
+              {% if notification.sender.friend_status(current_user) == 'accepted' and notification.notification_type == 'friends' and notification.recipient.user_id == current_user.user_id %}
+               <div class="text-container">
+                <p class="text">Now friends</p>
+               </div>
+          
+              {% elif 'sent you a friend request' in notification.message and notification.recipient.user_id == current_user.user_id %}
+                <p class="text">sent you a friend request</p>
+                <div class="notification-actions">
+                  <form action="{{url_for('auth.respond_to_friend_request_notification')}}" method="POST">
+                    <input type="hidden" name="notification_id" value="{{ notification.notification_id }}">
+                    <input type="hidden" name="action" value="accepted">
+                    <button type="submit" class="btn btn-success btn-xs">Accept</button>
+                  </form>
+              
+                  <form action="{{url_for('auth.respond_to_friend_request_notification')}}" method="POST">
+                    <input type="hidden" name="notification_id" value="{{ notification.notification_id }}">
+                    <input type="hidden" name="action" value="declined">
+                    <button type="submit" class="btn btn-danger btn-xs">Decline</button>
+                  </form>
+                </div>
+              {% elif 'accepted your friend request' in notification.message and notification.recipient.user_id == current_user.user_id %}
+                <p class="text">Accepted your friend request</p>
+              {% elif notification.message == 'declined your friend request' and notification.recipient.user_id == current_user.user_id %}
+                <p class="text">Declined your friend request</p>
+              {% endif %}
+
+              {% if 'sent you a service request for' in notification.message and notification.notification_type == 'service' and notification.recipient.user_id == current_user.user_id %}
+                 <p class="text">Requested service <a data-toggle="modal" data-target="#serviceRequestModal{{ notification.notification_id }}"> {{ notification.service.service_name }}</a></p>
+               {% endif %}     
+              <!-- Service Request Modal -->
+              <div id="serviceRequestModal{{ notification.notification_id }}" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title"><a href="{{ url_for('views.user_profile', user_id=notification.sender.user_id) }}">{{ notification.service.service_name }} - Service Requested by {{ notification.sender.firstname }} {{ notification.sender.lastname }}</a></h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="message-container"> 
+
+                        {% for request in notification.service.service_requests %}
+                        <div class="col-md-12 message {% if request.user_id == current_user.user_id %}message-sent{% else %}message-received{% endif %}{% if request.status == 'accepted' %}-accepted{% elif request.status == 'declined' %}-declined{% endif %}">
+                          <div class="message-header">
+                            <div class="header-left">
+                              <small>{{ request.user.firstname }} {{ request.user.lastname }}</small>
+                            </div>
+                            <div class="header-right">
+                              {% if request.status == 'accepted' %}
+                                  <span class="accepted">Accepted {{ notification.service.service_name }} </span>
+                              {% elif request.status == 'declined' %}
+                                  <span class="declined">Declined {{ notification.service.service_name }}</span>
+                              {% elif request.status == 'counter' %}
+                                  <span class="counter">Counter Offered {{ notification.service.service_name }}r</span>
+                              {% else %}
+                                  <span class="requested">Requested {{ notification.service.service_name }}</span>
+                              {% endif %}
+                          </div>
+                            <div class="header-right">
+                              <small><label for="fromDate-{{notification.service.service_id}}">From:</label> {{ request.from_date }}</small>
+                              <small><label for="toDate-{{notification.service.service_id}}">To:</label> {{ request.to_date }}</small>
+                              <small><label for="servicePrice-{{notification.service.service_id}}">Price:</label> ${{ request.price }}</small>
+                            </div>
+                          </div>
+                          <div class="message-body">
+                            <p>{{ request.message }}</p>
+                          </div>
+                        </div>
+                      {% endfor %}
+
+                      
+                      </div>
+                      <form action="{{ url_for('auth.respond_to_service_request_notification') }}" method="POST" class="message-form">
+                        <div class="form-group">
+                          <input id="add-service-name" class="form-control" type="text" name="service_name" title="Service Name" value="{{ notification.service.service_name }}" required/>
+                        </div>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input id="add-service-price" class="form-control" type="text" name="service_price" pattern="[0-9]+([,.][0-9]+)?" title="Service Price" placeholder="Price" required/>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-md-6">
+                            <label for="fromDate-{{notification.service.service_id}}">Start Time</label>
+                            <input type="datetime-local" class="form-control" id="fromDate-{{notification.service_id}}" name="from_date" value="" required>
+                          </div>
+                          <div class="col-md-6">
+                            <label for="toDate-{{notification.service.service_id}}">End Time</label>
+                            <input type="datetime-local" class="form-control" id="toDate-{{notification.service_id}}" name="to_date" value="" required>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <textarea class="form-control" id="message-{{notification.service.service_id}}" name="message" rows="3" placeholder="Type your message" required></textarea>
+                        </div>
+                        <div class="form-group text-right">
+                          <input type="hidden" name="sender_id" value="{{notification.sender.user_id }}">
+                          <input type="hidden" name="action" value="accepted">
+                          <button type="submit" class="btn btn-success">Accept</button>
+                          <input type="hidden" name="service_id" value="{{notification.id}}">
+                          <input type="hidden" name="action" value="declined">
+                          <button type="submit" class="btn btn-danger">Decline</button>
+                        </div>
+                      </form>
+                      <button type="button" class="btn btn-warning" data-dismiss="modal" data-toggle="modal" data-target="#counterOfferModal{{ notification.notification_id }}">Counter Offer</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+ 
+
+              {% if 'sent you a service request for' in notification.message %}
+                      <button type="button" class="btn btn-primary btn-xs">Respond to service request</button>
+              {% elif 'accepted your service request for' in notification.message and notification.recipient.user_id ==current_user.user_id %}
+                      <p class="text">Accepted your request for{{ notification.service.service_name }}</p>
+                      <button type="button" class="btn btn-success btn-xs">Start service</button>
+              {% elif 'accepted your service request for' in notification.message and notification.sender.user_id ==current_user.user_id %}
+                      <p class="text">you accpeted request for{{ notification.service.service_name }}</p>
+                      <button type="button" class="btn btn-success btn-xs">Start service</button>
+              {% elif 'cancelled your service request for' in notification.message %}
+                      <p class="text">Cancelled your service request for {{ notification.notification_type }}</p>
+              {% elif 'added you to the group' in notification.message %}
+                      <p class="text">Added you to the group "{{ notification.notification_type }}"</p>
+                  </div>
+              {% endif %}   
+                <p class="notification-time">{{ notification.created_at }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+    
+    <script>
+      $(document).ready(function() {
+        $('.notification-item').click(function() {
+          var notification_id = $(this).data('notification-id');
+          if ($(this).hasClass('notification-unread')) {
+            $(this).removeClass('notification-unread');
+            $.post('/update_notification_status', {
+              notification_id: notification_id,
+              is_read: true
+            });
+          } else {
+            $(this).addClass('notification-unread');
+            $.post('/update_notification_status', {
+              notification_id: notification_id,
+              is_read: false
+            });
+          }
+        });
+      });
+    </script>
+    
+    </div>
+    
+    <style>
+      .notification-item {
+        cursor: pointer;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+      }
+      
+      .row.notification-unread {
+
+        padding: 10px;
+      }
+      
+      #notification-box {
+        position: fixed;
+        bottom: 80px;
+        right: 30px;
+        width: 350px;
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        z-index: 9999;
+      }
+      
+      .notification-details {
+        margin-left: 10px;
+      }
+      
+      .notification-details h5 {
+        margin: 0;
+      }
+      
+      .notification-details p {
+        margin: 0;
+      }
+      
+      .notification-details .notification-actions {
+        margin-top: 5px;
+      }
+      
+      .notification-details .notification-actions button {
+        margin-right: 5px;
+      }
+      
+      .notification-time {
+        margin-top: 5px;
+        font-size: 8px;
+      }
+      
+      .notification-body {
+        height: 400px;
+        width: 350px;
+      }
+      
+      .notification-unread {
+        background-color: #cbe3ee;
+        font-weight: bold;
+      }
+      
+      </style>
+       
+    
+</div>
+<script>
+$(document).ready(function() {
+  $('#notification-icon').click(function() {
+    $('#notification-box').toggleClass('hidden');
+  });
+
+  $('#notification-box .close-btn').click(function() {
+    $('#notification-box').addClass('hidden');
+  });
+});
+
+
+$(document).on('submit', 'form[action="/respond_to_service_request"]', function(event) {
+    event.preventDefault();
+    var form = $(this);
+    $.ajax({
+        url: form.attr('action'),
+        method: 'POST',
+        data: form.serialize(),
+        success: function(response) {
+            // handle success response
+        },
+        error: function() {
+            // handle error response
+        }
+    });
+});
+
+
+
+</script>
+
+
+
+
+       <!-- aend handle all flashed messages -->
+  
+{% block content %}
+
+{%endblock%}
+
+{% block footer%}
+    <!-- Footer
+    ================================================= -->
+    <footer id="footer">
+      <div class="container">
+      	<div class="row">
+          <div class="footer-wrapper">
+            <div class="col-md-3 col-sm-3">
+              <a href=""><img src="{{url_for('static', filename = 'images/logo.png')}}" alt="" class="footer-logo" /></a>
+              <ul class="list-inline social-icons">
+              	<li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+              </ul>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <h5>For individuals</h5>
+              <ul class="footer-links">
+                <li><a href="">Signup</a></li>
+                <li><a href="">login</a></li>
+                <li><a href="">Explore</a></li>
+                <li><a href="">Finder app</a></li>
+                <li><a href="">Features</a></li>
+                <li><a href="">Language settings</a></li>
+              </ul>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <h5>For businesses</h5>
+              <ul class="footer-links">
+                <li><a href="">Business signup</a></li>
+                <li><a href="">Business login</a></li>
+                <li><a href="">Benefits</a></li>
+                <li><a href="">Resources</a></li>
+                <li><a href="">Advertise</a></li>
+                <li><a href="">Setup</a></li>
+              </ul>
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <h5>About</h5>
+              <ul class="footer-links">
+                <li><a href="">About us</a></li>
+                <li><a href="">Contact us</a></li>
+                <li><a href="">Privacy Policy</a></li>
+                <li><a href="">Terms</a></li>
+                <li><a href="">Help</a></li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-sm-3">
+              <h5>Contact Us</h5>
+                <ul class="contact">
+                	<li><i class="icon ion-ios-telephone-outline"></i>+1 (234) 222 0754</li>
+                	<li><i class="icon ion-ios-email-outline"></i>info@thunder-team.com</li>
+                  <li><i class="icon ion-ios-location-outline"></i>228 Park Ave S NY, USA</li>
+                </ul>
+            </div>
+          </div>
+      	</div>
+      </div>
+      <div class="copyright">
+        <p>Thunder Team © 2016. All rights reserved</p>
+      </div>
+		</footer>
+{%endblock%}
+
+    </html>
+
+ 

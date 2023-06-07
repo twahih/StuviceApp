@@ -1,0 +1,1037 @@
+{% extends "Base.html" %} 
+<!DOCTYPE html>
+<html lang="en">
+
+  <!--Header Header begin-->
+  {% block head %}
+  {{ super() }}
+<!-- Additional stylesheets or scripts for this page -->
+
+<script src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+
+<!-- Add Popper.js for Bootstrap 5 -->
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+
+<!-- Bootstrap -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+<!-- jQuery Appear -->
+<script src="{{ url_for('static', filename='js/jquery.appear.min.js') }}"></script>
+
+<!-- Incremental Counter -->
+<script src="{{ url_for('static', filename='js/jquery.incremental-counter.js') }}"></script>
+
+<!-- Custom Script -->
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<!-- Google Maps JavaScript API -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&callback=initMap"></script>
+
+
+
+    {% endblock %}
+
+
+{% block scripts %}
+  {{ super() }}
+{% endblock %}
+
+    <!--Header End-->
+
+  <!--Content Block-->
+    {% block content%}
+    <div class="container">
+
+      <!-- Timeline Frinds
+      ================================================= -->
+      <div class="timeline">
+        {%block timelinecover%}
+        <div class="timeline-cover">
+
+          <!--Timeline Menu for Large Screens-->
+          <div class="timeline-nav-bar hidden-sm hidden-xs">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="profile-info">
+                  <img src="http://placehold.it/300x300" alt="" class="img-responsive profile-photo" />
+                  <h3>{{user.firstname}} {{user.lastname}}</h3>
+                  <p class="text-muted">Creative Director</p>
+                </div>
+              </div>
+              <div class="col-md-9">
+                <ul class="list-inline profile-menu">
+                  <li class="active"><a data-toggle="tab" href="#timeline-about"></a></li>
+                </ul>
+          
+                <ul class="follow-me list-inline">
+                  <li>1,299 people following her</li>
+                  <li>
+                    {% if current_user == user_profile %}
+                    <button class="btn btn-default">Your profile</button>
+                {% else %}
+                    {% if friend %}
+                        {% if friend.status == 'accepted' %}
+                            <button class="btn btn-success">Friends</button>
+                        {% elif friend.status == 'pending' and friend.user_id == current_user.user_id %}
+                            <form action="{{ url_for('auth.cancel_friend_request') }}" method="post">
+                                <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                                <button type="submit" class="btn btn-primary btn-hover" title="Cancel friend request">
+                                    <span class="hover-out">Pending request</span>
+                                    <span class="hover-text">Cancel request</span>
+                                </button>
+                            </form>
+
+                            {% elif friend.status == 'pending' and friend.friend_id == current_user.user_id %}
+                            <form action="{{ url_for('auth.respond_friend_request') }}" method="post">
+                              <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                              <div class="btn-group">
+                                <button type="submit" name="status" value="accepted" class="btn btn-primary">Accept {{friend.status}}</button>
+                                <button type="submit" name="status" value="declined" class="btn btn-danger">Decline</button>
+                              </div>
+                            </form>
+                          
+                        {% else %}
+                        <form action="{{ url_for('auth.friend_request') }}" method="post">
+                          <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                          <button type="submit" class="btn btn-primary btn-hover" title="Cancel friend request">
+                            <span class="hover-out">Add friend</span>
+                            <span class="hover-text">send friend request</span>
+                        </button>
+                      </form>
+
+                        {% endif %}
+                    {% else %}
+                    <form action="{{ url_for('auth.friend_request') }}" method="post">
+                      <input type="hidden" name="user_id" value="{{ user.user_id }}">
+                      <button type="submit" class="btn btn-primary btn-hover" title="Add friend">
+                          <span class="hover-out">Add friend</span>
+                          <span class="hover-text">Send friend request</span>
+                      </button>
+                  </form>
+          
+                    {% endif %}
+                {% endif %}
+                
+                <style>
+                    .btn-hover .hover-text {
+                        display: none;
+                    }
+                    .btn-hover:hover .hover-text {
+                        display: inline-block;
+                    }
+                    .btn-hover:hover .hover-out {
+                        display: none;
+                    }
+                </style>
+                
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+<style>
+
+.btn-primary:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+
+</style>
+
+                  </li>
+                </ul>
+                          
+              </div>
+            </div>
+          </div>
+                    
+          <!--Timeline Menu for Large Screens End-->
+
+          <!--Timeline Menu for Small Screens-->
+          <div class="navbar-mobile hidden-lg hidden-md">
+            <div class="profile-info">
+              <img src="http://placehold.it/300x300" alt="" class="img-responsive profile-photo" />
+              <h4>{{user.firstname}} {{user.lastname}}</h4>
+              <p class="text-muted">Creative Director</p>
+            </div>
+            <div class="mobile-menu">
+              <ul class="list-inline">
+                <li><a data-toggle="tab" href="#timeline-about"></a></li>
+              </ul>
+              <button class="btn-primary">Addfriend</button>
+            </div>
+          </div><!--Timeline Menu for Small Screens End-->
+
+
+
+<script>
+// Get all the tab links
+var tabLinks = document.querySelectorAll('.list-inline li a');
+
+// Add a click event listener to each link
+tabLinks.forEach(function(link) {
+  link.addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    // Remove active class from previously selected link
+    document.querySelector('.list-inline li.active').classList.remove('active');
+
+    // Set clicked link to active
+    this.parentElement.classList.add('active');
+
+    // Get the href of the clicked link
+    var href = this.getAttribute('href');
+
+    // Show the corresponding tab pane
+    document.querySelector(href).classList.add('show', 'active');
+
+    // Hide all other tab panes
+    var allTabPanes = document.querySelectorAll('.tab-pane');
+    allTabPanes.forEach(function(pane) {
+      if (pane.id !== href.substring(1)) {
+        pane.classList.remove('show', 'active');
+      }
+    });
+  });
+});
+
+</script>         
+
+        </div>
+        {%endblock%}
+        <div id="page-contents">
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-7">
+              <div class="tab-content">
+                <!-- Friend List
+                ================================================= -->
+                <div class="friend-list tab-pane" id = "timeline-friends">
+                <div class="row">
+                  <div class="col-md-6 col-sm-6">
+                    <div class="friend-card">
+                      <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
+                      <div class="card-info">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                        <div class="friend-info">
+                          <a href="#" class="pull-right text-green">My Friend</a>
+                          <h5><a href="timeline.html" class="profile-link">Sophia Lee</a></h5>
+                          <p>Student at Harvard</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <div class="friend-card">
+                      <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
+                      <div class="card-info">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                        <div class="friend-info">
+                          <a href="#" class="pull-right text-green">My Friend</a>
+                          <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
+                          <p>Traveler</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <div class="friend-card">
+                      <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
+                      <div class="card-info">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                        <div class="friend-info">
+                          <a href="timeline.html" class="pull-right text-green">My Friend</a>
+                          <h5><a href="#" class="profile-link">Julia Cox</a></h5>
+                          <p>Art Designer</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <div class="friend-card">
+                      <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
+                      <div class="card-info">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                        <div class="friend-info">
+                          <a href="#" class="pull-right text-green">My Friend</a>
+                          <h5><a href="timelime.html" class="profile-link">Robert Cook</a></h5>
+                          <p>Photographer at Photography</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <div class="friend-card">
+                      <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
+                      <div class="card-info">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                        <div class="friend-info">
+                          <a href="#" class="pull-right text-green">My Friend</a>
+                          <h5><a href="timeline.html" class="profile-link">Richard Bell</a></h5>
+                          <p>Graphic Designer at Envato</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <div class="friend-card">
+                      <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
+                      <div class="card-info">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                        <div class="friend-info">
+                          <a href="#" class="pull-right text-green">My Friend</a>
+                          <h5><a href="timeline.html" class="profile-link">Linda Lohan</a></h5>
+                          <p>Software Engineer</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <div class="friend-card">
+                      <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
+                      <div class="card-info">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                        <div class="friend-info">
+                          <a href="#" class="pull-right text-green">My Friend</a>
+                          <h5><a href="timeline.html" class="profile-link">Anna Young</a></h5>
+                          <p>Musician</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <div class="friend-card">
+                      <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
+                      <div class="card-info">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                        <div class="friend-info">
+                          <a href="#" class="pull-right text-green">My Friend</a>
+                          <h5><a href="timeline.html" class="profile-link">James Carter</a></h5>
+                          <p>CEO at IT Farm</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                    <div class="friend-card">
+                      <img src="http://placehold.it/1030x360" alt="profile-cover" class="img-responsive cover" />
+                      <div class="card-info">
+                        <img src="http://placehold.it/300x300" alt="user" class="profile-photo-lg" />
+                        <div class="friend-info">
+                          <a href="#" class="pull-right text-green">My Friend</a>
+                          <h5><a href="timeline.html" class="profile-link">Alexis Clark</a></h5>
+                          <p>Traveler</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                <!--End of timeline friends-->
+
+                <!-- About
+                ================================================= -->
+                <div class="about-profile tab-pane active" id = "timeline-about">
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-information-outline icon-in-title"></i>Personal Information</h4>
+                  <p>{{user.about_me}}</p>
+                </div>
+                  
+
+                  <div class="about-content-block">
+                    <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Services</h4>
+                    <div class="services-list">
+
+
+                        <style>
+.about-content-block {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.services-list {
+  margin-top: 10px;
+}
+
+.service {
+  position: relative;
+  /*display: flex;*/
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.service-info h5 {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.service-info .text-grey {
+  font-weight: bold;
+}
+
+.service-info .ratings {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.service-info .rating {
+  color: #f39c12;
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.service-info .rating-count {
+  font-size: 14px;
+}
+
+.service-actions {
+ display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.btn-group {
+  display: flex;
+  align-items: right;
+}
+.service-actions .btn {
+  margin-right: 5px;
+  padding: 0;
+  color: rgb(82, 81, 81);
+  display: inline-block;
+  margin-left: 5px;
+
+}
+.request-service {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.request-service .btn {
+  background-color: #178626;
+  color: #fff;
+  font-size: 16px;
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px; /* Increase border-radius for rounder corners */
+  transition: background-color 0.3s;
+}
+
+.request-service .btn:hover {
+  background-color: #10651b; /* Update hover color for a better color transition */
+  cursor: pointer;
+}
+
+.cancel-service-btn .hover-text {
+    display: none;
+}
+
+.cancel-service-btn:hover .default-text {
+    display: none;
+}
+
+.cancel-service-btn:hover .hover-text {
+    display: inline;
+   
+}
+
+</style>                            
+
+{% for service in user.services %}
+{% set current_user_request = service_id_to_request.get(service.service_id) %}
+<div class="service">
+    <div class="service-info">
+        <div class="title-wrapper">
+            <div class="service-actions">
+                <h5>{{service.category.category_name}}</h5>
+                <div class="request-service">
+                    {% if current_user_request %}
+                        {% if current_user_request.status == 'pending' %}
+                            <button type="button" class="btn btn-warning request-service-btn cancel-service-btn" data-toggle="modal" data-target="#cancelServiceModal-{{service.serviceid}}">
+                                <span class="default-text">Pending </span>
+                                <span class="hover-text">Cancel Service</span>
+                            </button>
+
+
+                            <!--Cancel service modal-->
+
+                            <div class="modal fade" id="cancelServiceModal-{{service.id}}" tabindex="-1" role="dialog" aria-labelledby="requestServiceModalLabel-{{service.id}}" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header profile-card">
+                                    <h5 class="modal-title" id="requestServiceModalLabel-{{service.id}}">Update Service</h5>
+                                    <button type="button" color="black" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+
+                                    <div class="profile">
+                                      <img src="http://placehold.it/300x300" alt="user" class="profile-photo" />
+                                      <h5><a href="timeline.html" class="text-white">{{user.firstname}}  {{user.lastname}}</a></h5>
+                                      <a href="#" class="text-white"><i class="ion ion-android-person-add"></i> 1,299 followers</a>
+                                    </div><!--profile card ends-->
+
+                                  </div>
+                                  <div class="modal-body">
+                                    <form id ="update_request_form" action="{{ url_for('auth.update_request') }}" method="POST">
+                                      <input type="hidden" name="request_id" value="{{current_user_request.request_id}}">
+                                      <input type="hidden" name="service_id" value="{{current_user_request.service_id}}">
+                                      <div class="form-group">
+                                        <label for="serviceName-{{service.service_id}}">Service Name</label>
+                                        <input type="text" class="form-control" name="service_name" id="serviceName-{{service.id}}" value="{{service.service_name}}" readonly>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="fromDate-{{service.service_id}}">From Date and Time</label>
+                                        <input type="datetime-local" class="form-control" id="fromDate-{{service.id}}" name="from_date" value="{{current_user_request.from_date}}" required>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="toDate-{{service.service_id}}">To Date and Time</label>
+                                        <input type="datetime-local" class="form-control" id="toDate-{{service.id}}" name="to_date" value="{{current_user_request.to_date}}" required>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="message-{{service.service_id}}">Message</label>
+                                        <textarea class="form-control" id="message-{{service.id}}" name="message" rows="3" required>{{current_user_request.message}}</textarea>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="phoneNumber-{{service.service_id}}">Phone Number</label>
+                                        <input type="tel" class="form-control" id="phoneNumber-{{service.service_id}}" name="phone_number" value ="{{current_user.phone}}" required>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="submit" class="btn btn-secondary" name="submit_type" value="update">Update</button>
+                                        <button type="submit" class="btn btn-danger" name="submit_type" value="cancel">Cancel Request</button>
+                                        
+                                      </div>
+                                    </form>
+                                    
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- End of Request Service Modal -->
+
+                        {% elif current_user_request.status == 'accepted' %}
+                            <button type="button" class="btn btn-success request-service-btn" data-toggle="modal" data-target="#startServiceModal-{{service.service_id}}">
+                                Start Service
+                            </button>
+                        {% elif current_user_request.status == 'in_progress' %}
+                            <button type="button" class="btn btn-primary request-service-btn" data-toggle="modal" data-target="#endServiceModal-{{service.service_id}}">
+                                End Service
+                            </button>
+                        {% elif current_user_request.status == 'declined' or current_user_request.status == 'complete' %}
+                            <button type="button" class="btn btn-primary request-service-btn" data-toggle="modal" data-target="#requestServiceModal-{{service.service_id}}">
+                                Request Service
+                            </button>
+                        {% else %}
+                            {{ current_user.user_id }}
+                            {{ service.service_id }} 
+                            <button type="button" class="btn btn-primary request-service-btn" data-toggle="modal" data-target="#requestServiceModal-{{service.service_id}}">
+                                Request Service (unknown status)
+                            </button>
+                        {% endif %}
+                    {% else %}
+                        <button type="button" class="btn btn-primary request-service-btn" data-toggle="modal" data-target="#requestServiceModal-{{service.service_id}}">
+                            Request Service
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        
+        
+        
+        
+        
+        
+        
+            <p><span class="text-grey">Service Name:</span> {{service.service_name}}</p>
+            <p><span class="text-grey">Price:</span> ${{service.price}}</p>
+            <p><span class="text-grey">Created:</span> {{ service.created_at.strftime('%B %d, %Y') }}</p>
+            <p><span class="text-grey">Description:</span> {{service.description}}</p>
+            
+            <!--Edit service model -->
+        </div>
+        <div class="ratings">
+            <span class="rating">{{service.averagerate}}</span>
+            <span class="rating-count">(10)</span>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--End of cancel service modal -->
+
+<!--Start Service Modal-->
+<div class="modal fade" id="startServiceModal-{{service.id}}" tabindex="-1" role="dialog" aria-labelledby="startServiceModalLabel-{{service.id}}" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="startServiceModalLabel-{{service.id}}">Start Service</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to start this service?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success">Start Service</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--End of Start Service Mode -->
+
+
+<!--End service model -->
+<div class="modal fade" id="endServiceModal-{{service.id}}" tabindex="-1" role="dialog" aria-labelledby="endServiceModalLabel-{{service.id}}" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="endServiceModalLabel-{{service.id}}">End Service</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to end this service?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">End Service</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--End of end service model-->
+
+<!-- Request Service Modal -->
+<div class="modal fade" id="requestServiceModal-{{service.service_id}}" tabindex="-1" role="dialog" aria-labelledby="requestServiceModalLabel-{{service.id}}" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header profile-card">
+        <h5 class="modal-title" id="requestServiceModalLabel-{{service.id}}">Request Service</h5>
+        <button type="button" color="black" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <div class="profile">
+          <img src="http://placehold.it/300x300" alt="user" class="profile-photo" />
+          <h5><a href="timeline.html" class="text-white">{{user.firstname}}  {{user.lastname}}</a></h5>
+          <a href="#" class="text-white"><i class="ion ion-android-person-add"></i> 1,299 followers</a>
+        </div><!--profile card ends-->
+
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('auth.submit_request') }}" method="post">
+          <input type="hidden" name="service_id" value="{{service.service_id}}">
+          <div class="form-group">
+            <label for="serviceName-{{service.service_id}}">Service Name</label>
+            <input type="text" class="form-control" name="service_name" id="serviceName-{{service.id}}" value="{{service.service_name}}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="fromDate-{{service.service_id}}">From Date and Time</label>
+            <input type="datetime-local" class="form-control" id="fromDate-{{service.id}}" name="from_date" required>
+          </div>
+          <div class="form-group">
+            <label for="toDate-{{service.service_id}}">To Date and Time</label>
+            <input type="datetime-local" class="form-control" id="toDate-{{service.id}}" name="to_date" required>
+          </div>
+          <div class="form-group">
+            <label for="message-{{service.service_id}}">Message</label>
+            <textarea class="form-control" id="message-{{service.id}}" name="message" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber-{{service.service_id}}">Phone Number</label>
+            <input type="tel" class="form-control" id="phoneNumber-{{service.service_id}}" name="phone_number" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+          </div>
+        </form>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End of Request Service Modal -->
+  {% endfor %}
+  
+
+
+
+                    </div>
+                  </div>
+  
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Work Experiences</h4>
+
+                </div>
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-location-outline icon-in-title"></i>Location</h4>
+                  <p>228 Park Eve, New York</p>
+                  <div class="google-maps">
+                    <div id="map" class="map"></div>
+                  </div>
+                </div>
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-heart-outline icon-in-title"></i>Interests</h4>
+                  <ul class="interests list-inline">
+                    <li><span class="int-icons" title="Bycycle riding"><i class="icon ion-android-bicycle"></i></span></li>
+                    <li><span class="int-icons" title="Photography"><i class="icon ion-ios-camera"></i></span></li>
+                    <li><span class="int-icons" title="Shopping"><i class="icon ion-android-cart"></i></span></li>
+                    <li><span class="int-icons" title="Traveling"><i class="icon ion-android-plane"></i></span></li>
+                    <li><span class="int-icons" title="Eating"><i class="icon ion-android-restaurant"></i></span></li>
+                  </ul>
+                </div>
+                <div class="about-content-block">
+                  <h4 class="grey"><i class="ion-ios-chatbubble-outline icon-in-title"></i>Language</h4>
+                    <ul>
+                      <li><a href="">Russian</a></li>
+                      <li><a href="">English</a></li>
+                    </ul>
+                </div>
+                </div>
+                <!--End of timeline about-->
+
+
+               <!-- My timeline content
+              ================================================= -->
+                <div class="mytimeline tab-pane" id="timeline">
+              <!-- Post Create Box
+              ================================================= -->
+              <div class="create-post">
+
+              </div><!-- Post Create Box End-->
+
+              <!-- Post Content
+              ================================================= -->
+              <div class="post-content">
+
+                <!--Post Date-->
+                <div class="post-date hidden-xs hidden-sm">
+                  <h5>Sarah</h5>
+                  <p class="text-grey">Sometimes ago</p>
+                </div><!--Post Date End-->
+
+                <img src="http://placehold.it/1920x1280" alt="post-image" class="img-responsive post-image" />
+                <div class="post-container">
+                  <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
+                  <div class="post-detail">
+                    <div class="user-info">
+                      <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span class="following">following</span></h5>
+                      <p class="text-muted">Published a photo about 15 mins ago</p>
+                    </div>
+                    <div class="reaction">
+                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 13</a>
+                      <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                    </div>
+                    <div class="line-divider"></div>
+                    <div class="post-text">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                    </div>
+                    <div class="line-divider"></div>
+                    <div class="post-comment">
+                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                      <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
+                    </div>
+                    <div class="post-comment">
+                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                      <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
+                    </div>
+                    <div class="post-comment">
+                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                      <input type="text" class="form-control" placeholder="Post a comment">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Post Content
+              ================================================= -->
+              <div class="post-content">
+
+                <!--Post Date-->
+                <div class="post-date hidden-xs hidden-sm">
+                  <h5>Sarah</h5>
+                  <p class="text-grey">10/22/2016</p>
+                </div><!--Post Date End-->
+
+                <img src="http://placehold.it/1920x1280" alt="post-image" class="img-responsive post-image" />
+                <div class="post-container">
+                  <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
+                  <div class="post-detail">
+                    <div class="user-info">
+                      <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span class="following">following</span></h5>
+                      <p class="text-muted">Yesterday</p>
+                    </div>
+                    <div class="reaction">
+                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 49</a>
+                      <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                    </div>
+                    <div class="line-divider"></div>
+                    <div class="post-text">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                    </div>
+                    <div class="line-divider"></div>
+                    <div class="post-comment">
+                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                      <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
+                    </div>
+                    <div class="post-comment">
+                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                      <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
+                    </div>
+                    <div class="post-comment">
+                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                      <input type="text" class="form-control" placeholder="Post a comment">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Post Content
+              ================================================= -->
+              <div class="post-content">
+
+                <!--Post Date-->
+                <div class="post-date hidden-xs hidden-sm">
+                  <h5>Sarah</h5>
+                  <p class="text-grey">10/21/2016</p>
+                </div><!--Post Date End-->
+
+                <div class="post-container">
+                  <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
+                  <div class="post-detail">
+                    <div class="user-info">
+                      <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span class="following">following</span></h5>
+                      <p class="text-muted">2 days ago</p>
+                    </div>
+                    <div class="reaction">
+                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 49</a>
+                      <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                    </div>
+                    <div class="line-divider"></div>
+                    <div class="post-text">
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                    </div>
+                    <div class="line-divider"></div>
+                    <div class="post-comment">
+                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                      <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
+                    </div>
+                    <div class="post-comment">
+                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                      <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
+                    </div>
+                    <div class="post-comment">
+                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
+                      <input type="text" class="form-control" placeholder="Post a comment">
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+                <!--End of my timeling content-->
+
+                <!-- Photo Album
+              ================================================= -->
+                <div class="timeline-album tab-pane" id="timeline-album">
+                <ul class="album-photos">
+                  <li>
+                    <div class="img-wrapper" data-toggle="modal" data-target=".photo-1">
+                      <img src="http://placehold.it/1000x1000" alt="photo" />
+                    </div>
+                    <div class="modal fade photo-1" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img src="http://placehold.it/1000x1000" alt="photo" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="img-wrapper" data-toggle="modal" data-target=".photo-2">
+                      <img src="http://placehold.it/1000x1000" alt="photo" />
+                    </div>
+                    <div class="modal fade photo-2" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img src="http://placehold.it/1000x1000" alt="photo" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="img-wrapper" data-toggle="modal" data-target=".photo-3">
+                      <img src="http://placehold.it/1000x1000" alt="photo" />
+                    </div>
+                    <div class="modal fade photo-3" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img src="http://placehold.it/1000x1000" alt="photo" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="img-wrapper" data-toggle="modal" data-target=".photo-4">
+                      <img src="http://placehold.it/1000x1000" alt="photo" />
+                    </div>
+                    <div class="modal fade photo-4" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img src="http://placehold.it/1000x1000" alt="photo" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="img-wrapper" data-toggle="modal" data-target=".photo-5">
+                      <img src="http://placehold.it/1000x1000" alt="photo" />
+                    </div>
+                    <div class="modal fade photo-5" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img src="http://placehold.it/1000x1000" alt="" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="img-wrapper" data-toggle="modal" data-target=".photo-6">
+                      <img src="http://placehold.it/1000x1000" alt="photo" />
+                    </div>
+                    <div class="modal fade photo-6" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img src="http://placehold.it/1000x1000" alt="" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="img-wrapper" data-toggle="modal" data-target=".photo-7">
+                      <img src="http://placehold.it/1000x1000" alt="photo" />
+                    </div>
+                    <div class="modal fade photo-7" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img src="http://placehold.it/1000x1000" alt="" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="img-wrapper" data-toggle="modal" data-target=".photo-8">
+                      <img src="http://placehold.it/1000x1000" alt="photo" />
+                    </div>
+                    <div class="modal fade photo-8" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img src="http://placehold.it/1000x1000" alt="" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="img-wrapper" data-toggle="modal" data-target=".photo-9">
+                      <img src="http://placehold.it/1000x1000" alt="photo" />
+                    </div>
+                    <div class="modal fade photo-9" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <img src="http://placehold.it/1000x1000" alt="" />
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                </div>
+                <!--End of timeline album-->
+              </div>
+            </div>
+            <div class="col-md-2 static">
+              <div id="sticky-sidebar">
+                <h4 class="grey">Sarah's activity</h4>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Sarah</a> Commended on a Photo</p>
+                    <p class="text-muted">5 mins ago</p>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Sarah</a> Has posted a photo</p>
+                    <p class="text-muted">an hour ago</p>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Sarah</a> Liked her friend's post</p>
+                    <p class="text-muted">4 hours ago</p>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Sarah</a> has shared an album</p>
+                    <p class="text-muted">a day ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {%endblock%}
+
+{% block footer%}
+ {{super()}}
+{%endblock%}
+
+        <!-- Scripts
+    ================================================= -->
+    {% block javascript %}  
+<!-- Your other head tags here -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const deleteButtons = document.querySelectorAll('.btn-delete');
+      deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+          event.preventDefault();
+          const target = button.getAttribute('data-bs-target');
+          const targetModal = document.querySelector(target);
+          const modal = new bootstrap.Modal(targetModal);
+          modal.show();
+        });
+      });
+    });
+  </script>
+  
+<!-- Bootstrap 5 no longer requires jQuery, so you can remove the following line if you're not using jQuery in your custom script -->
+
+
+ {%endblock%}
+    
+  </body>
+</html>
+
+    

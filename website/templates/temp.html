@@ -1,0 +1,286 @@
+<!-- Edit services
+    ================================================= -->
+    <div class="row tab-pane" id="services">
+        <div class="block-title">
+          <h4 class="grey"><i class="icon ion-ios-briefcase-outline"></i> Services</h4>
+          <div class="line"></div>
+          <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate</p>
+          <div class="line"></div>
+        </div>
+        <div class="edit-block">       
+  
+          <ul class="list-inline interests" style="white-space: nowrap; overflow-x: scroll;">
+            <li class="btn btn-default" data-category="tutoring"><i class="icon ion-ios-book"></i> Tutoring</li>
+            <li class="btn btn-default" data-category="laundry"><i class="icon ion-tshirt"></i> Laundry</li>
+            <li class="btn btn-default" data-category="cleaning"><i class="icon ion-waterdrop"></i> Cleaning</li>
+            <li class="btn btn-default" data-category="transport"><i class="icon ion-android-car"></i> Transport</li>
+            <li class="btn btn-default" data-category="haircut"><i class="icon ion-scissors"></i> Haircut</li>
+            <li class="btn btn-default" data-category="moving"><i class="icon ion-ios-box"></i> Moving</li>
+            <li class="btn btn-default" data-category="personal-trainer"><i class="icon ion-person"></i> Personal Trainer</li>
+            <li class="btn btn-default" data-category="others"><i class="icon ion-plus"></i> Others</li>
+          </ul>
+  
+          <div class="line"></div>
+          <div class="row">
+            <p class="custom-label"><strong>Category</strong></p>
+            <div class="form-group col-sm-6">
+              <label for="service-name">Service Name:</label>
+              <input id="service-name" class="form-control input-group-lg" type="text" name="service_name" title="Service Name" placeholder="Enter service name"/>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="service-price">Service Price:</label>
+              <input id="service-price" class="form-control input-group-lg" type="text" name="service_price" title="Service Price" placeholder="Enter service price"/>
+            </div>
+            <div class="form-group col-sm-12">
+              <label for="service-description">Service Description:</label>
+              <textarea id="service-description" class="form-control" rows="5" name="service_description" placeholder="Enter service description"></textarea>
+            </div>
+            <div class="form-group col-sm-12">
+              <input type="hidden" name="service_category" id="service-category" value=""/>
+              <button class="btn btn-primary" id="add-service">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--End of edit services-->
+
+      <!-- Temp to print out all user services -->
+      <div class="about-content-block">
+        <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Services</h4>
+        {% for service in user.services %}
+          <div class="organization">
+            <img src="{{ url_for('static', filename='images/service.png') }}" alt="" class="pull-left img-org" />
+            <div class="work-info">
+              <h5>{{ service.service_name }}</h5>
+              <p>Price: <span class="text-grey">${{ service.price }}</span></p>
+              <p>Created at: <span class="text-grey">{{ service.created_at }}</span></p>
+              <p>{{ service.description }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      
+      <!-- Temp to print out all user services -->
+      <div class="about-content-block">
+        <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Services</h4>
+          <div class="organization">
+            <img src="{{ url_for('static', filename='images/service.png') }}" alt="" class="pull-left img-org" />
+            <div class="work-info">
+              <h5>Tutoring</h5>
+              <p>Price: <span class="text-grey">${{ service.price }}</span></p>
+              <p>Created at: <span class="text-grey">3/31/2023</span></p>
+              <p>Some description Herve</p>
+            </div>
+          </div>
+      </div>
+
+      <div class="about-content-block">
+        <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Services</h4>
+        {% for service in user_services %}
+        <div class="service">
+          <div class="service-info">
+            <h5>{{ service.service_name }}</h5>
+            <p><span class="text-grey">{{ service.created_at.strftime('%B %d, %Y') }}</span></p>
+            <p>Price: <span class="text-grey">{{ service.price }}</span></p>
+            <p>{{ service.description }}</p>
+          </div>
+          <div class="service-actions">
+            <form method="post" action="{{ url_for('remove_service', service_id=service.id) }}">
+              <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <style>
+.about-content-block {
+  margin-top: 30px;
+}
+
+.about-content-block h4 {
+  margin-bottom: 20px;
+}
+
+.about-content-block .service {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.about-content-block .service:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.about-content-block .service .service-info {
+  flex-basis: 75%;
+}
+
+.about-content-block .service .service-info h5 {
+  margin-bottom: 5px;
+}
+
+.about-content-block .service .service-info p {
+  margin-bottom: 3px;
+}
+
+.about-content-block .service .service-actions {
+  text-align: right;
+  flex-basis: 25%;
+}
+
+.about-content-block .service .service-actions button {
+  margin-top: 10px;
+}
+
+
+      </style>
+
+<div class="about-content-block">
+    <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Services</h4>
+    {% for service in user_services %}
+    <div class="service">
+      <div class="service-info">
+        <h5>Tutoring</h5>
+        <p><span class="text-grey">1/31/2023</span></p>
+        <p>Price: <span class="text-grey">20</span></p>
+        <p>I will do for  the money and anything you can thing of </p>
+      </div>
+      <div class="service-actions">
+        <form method="post" action="{{ url_for('remove_service', service_id=service.id) }}">
+          <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Remove</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+
+  <div class="about-content-block">
+    <h4 class="grey"><i class="ion-ios-briefcase-outline icon-in-title"></i>Services</h4>
+    <div class="services-list">
+      {% for i in range(3) %}
+      <div class="service">
+        <div class="service-info">
+          <h5>Tutor</h5>
+          <p><span class="text-grey">Category:</span> Tutoring</p>
+          <p><span class="text-grey">Price:</span> $20</p>
+          <p><span class="text-grey">Created at:</span> 3/31/2023</p>
+        </div>
+        <div class="service-actions">
+          <form action="" method="post">
+            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <a href="#" class="btn btn-primary">Add Service</a>
+  </div>
+  
+
+
+  <style>
+    .about-content-block {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    
+    .services-list {
+      margin-top: 10px;
+    }
+    
+    .service {
+      position: relative; /* add this */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .service-info h5 {
+      margin-bottom: 10px;
+    }
+    
+    .service-info p {
+      margin-bottom: 5px;
+    }
+    
+    .service-info .text-grey {
+      font-weight: bold;
+    }
+    
+    .service-info .ratings {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    .service-info .rating {
+      color: #f39c12;
+      font-size: 18px;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    
+    .service-info .rating-count {
+      font-size: 14px;
+    }
+    
+    .title-wrapper {
+      position: absolute; /* add this */
+      top: 0; /* add this */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    
+    .service-actions {
+      display: flex;
+      align-items: center;
+    }
+    
+    .service-actions .btn {
+      margin-right: 5px;
+    }
+    
+    .btn-add-service {
+      margin-top: 10px;
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+    
+    </style>   
+
+{% for service in user.services %}
+<div class="service">
+  <div class="service-info">
+    <div class="title-wrapper">
+      <h5>{{service.category.category_name}}</h5>
+      <div class="service-actions">
+        <form action="" method="post"><button type="submit" class="btn btn-delete"><i class="fa fa-trash"></i></button>
+        </form>
+        <a href="#" class="btn btn-edit"><i class="fa fa-pencil"></i></a>
+      </div>
+    </div>
+    <p><span class="text-grey">Service Name:</span> {{service.service_name}}</p>
+    <p><span class="text-grey">Price:</span> ${{service.price}} </p>
+    <p><span class="text-grey">Created:</span> {{ service.created_at.strftime('%B %d, %Y') }}</p>
+    <p><span class="text-grey">Description:</span> {{service.description}}</p>
+    <div class="ratings">
+      <span class="rating">{{service.averagerate}}</span>
+      <span class="rating-count">(10)</span>
+    </div>
+  </div>
+</div>
+{% endfor %}

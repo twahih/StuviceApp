@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <meta charset="UTF-8">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="This is social network html5 template available in themeforest......" />
+		<meta name="keywords" content="Social Network, Social Media, Make Friends, Newsfeed, Profile Page" />
+		<meta name="robots" content="index, follow" />
+		<title>Friend Finder | A Complete Social Network Template</title>
+
+    <!-- Stylesheets
+    ================================================= -->
+    <link rel="stylesheet" href= "{{url_for('static', filename = 'css/bootstrap.min.css')}}" />
+		<link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}" />
+    <link rel="stylesheet" href= "{{url_for('static', filename = 'css/ionicons.min.css')}}" />
+    <link rel="stylesheet" href= "{{url_for('static', filename = 'css/font-awesome.min.css')}}" />
+    <link href="{{url_for('static', filename = 'css/emoji.css')}}" rel="stylesheet">
+    
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+    
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/png" href="{{url_for('static',filename = 'images/fav.png')}}"/>
+	</head>
+	<body>
+
+    <!-- Header
+    ================================================= -->
+		<header id="header-inverse">
+      <nav class="navbar navbar-default navbar-fixed-top menu">
+        <div class="container">
+
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index-register.html"><img src= "{{url_for('static',filename = 'images/logo.png')}}"  alt="logo" /></a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right main-menu">
+              <!--You can add more tabs such as contack home, etc-->
+            </ul>
+            <form class="navbar-form navbar-right hidden-sm">
+              <div class="form-group">
+                <i class="icon ion-android-search"></i>
+                <input type="text" class="form-control" placeholder="Search services, trending, ...">
+              </div>
+            </form>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+      </nav>
+    </header>
+    <!--Header End-->
+
+
+
+   
+    <!-- Landing Page Contents
+    ================================================= -->
+    <div id="lp-register">
+     <!--handle all flashed messages -->
+     {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="popup flash-message">
+                <span class="close-btn">&times;</span>
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const flashMessage = document.querySelector('.flash-message');
+            if (flashMessage) {
+              flashMessage.classList.add('show');
+              const closeBtn = flashMessage.querySelector('.close-btn');
+              closeBtn.addEventListener('click', function() {
+                flashMessage.classList.remove('show');
+              });
+            }
+          });
+        </script>
+        
+
+
+    	<div class="container wrapper">
+        <div class="row">
+        	<div class="col-sm-5">
+            <div class="intro-texts">
+            	<h1 class="text-white">Make Cool Friends !!!</h1>
+            	<p>Friend Finder is a social network template that can be used to connect people. The template offers Landing pages, News Feed, Image/Video Feed, Chat Box, Timeline and lot more. <br /> <br />Why are you waiting for? Buy it now.</p>
+              <button class="btn btn-primary">Learn More</button>
+            </div>
+          </div>
+        	<div class="col-sm-6 col-sm-offset-1">
+            <div class="reg-form-container"> 
+            
+              <!-- Register/Login Tabs-->
+              <div class="reg-options">
+                <ul class="nav nav-tabs">
+
+                <li><a href="#register" data-toggle="tab">Register</a></li>
+
+                <li class="active" ><a href="#login" data-toggle="tab">Login</a></li>
+
+                </ul><!--Tabs End-->
+              </div>
+              
+              <!--Registration Form Contents-->
+              <div class="tab-content">
+                <div class="tab-pane fade" id="register">
+                  <h3>Register Now !!!</h3>
+                  <p class="text-muted">Be cool and join today. Meet millions</p>
+                  
+                  <!--Register Form-->
+                  <form name="registration_form" id='registration_form' class="form-inline"  method="POST" action="{{ url_for('auth.sign_up') }}" name="signup-form">
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="firstname" class="sr-only" aria-required="true">First Name</label>
+                        <input id="firstname" class="form-control input-group-lg" type="text" name="firstname" title="Enter first name" placeholder="First name" required/>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="lastname" class="sr-only" aria-required="true">Last Name</label>
+                        <input id="lastname" class="form-control input-group-lg" type="text" name="lastname" title="Enter last name" placeholder="Last name" required/>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="email" class="sr-only" aria-required="true">Email</label>
+                        <input id="email" class="form-control input-group-lg" type="text" name="email" title="Enter Email" placeholder="Your Email" required/>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="password" class="sr-only" aria-required="true">Password</label>
+                        <input id="password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password" required/>
+                      </div>
+                      <div class="form-group col-xs-12">
+                        <label for="confirm_password" class="sr-only" aria-required="true">Confirm Password</label>
+                        <input id="confirm_password" class="form-control input-group-lg" type="password" name="confirm_password" title="Confirm password" placeholder="Confirm Password" required />
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <p class="birth"><strong>Date of Birth</strong></p>
+                      <div class="form-group col-sm-3 col-xs-6">
+                        <label for="month" class="sr-only"></label>
+                        <select class="form-control" id="day" name="day" required>
+                          <option value="Day" disabled selected>Day</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                          <option>10</option>
+                          <option>11</option>
+                          <option>12</option>
+                          <option>13</option>
+                          <option>14</option>
+                          <option>15</option>
+                          <option>16</option>
+                          <option>17</option>
+                          <option>18</option>
+                          <option>19</option>
+                          <option>20</option>
+                          <option>21</option>
+                          <option>22</option>
+                          <option>23</option>
+                          <option>24</option>
+                          <option>25</option>
+                          <option>26</option>
+                          <option>27</option>
+                          <option>28</option>
+                          <option>29</option>
+                          <option>30</option>
+                          <option>31</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-sm-3 col-xs-6">
+                        <label for="month" class="sr-only"></label>
+                        <select class="form-control" id="month" name="month" required>
+                          <option value="month" disabled selected>Month</option>
+                          <option>Jan</option>
+                          <option>Feb</option>
+                          <option>Mar</option>
+                          <option>Apr</option>
+                          <option>May</option>
+                          <option>Jun</option>
+                          <option>Jul</option>
+                          <option>Aug</option>
+                          <option>Sep</option>
+                          <option>Oct</option>
+                          <option>Nov</option>
+                          <option>Dec</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-sm-6 col-xs-12">
+                        <label for="year" class="sr-only"></label>
+                        <select class="form-control" id="year" name="year">
+                          <option value="year" disabled selected required>Year</option>
+                          <option>2000</option>
+                          <option>2001</option>
+                          <option>2002</option>
+                          <option>2004</option>
+                          <option>2005</option>
+                          <option>2006</option>
+                          <option>2007</option>
+                          <option>2008</option>
+                          <option>2009</option>
+                          <option>2010</option>
+                          <option>2011</option>
+                          <option>2012</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group gender">
+                      <label class="radio-inline">
+                        <input type="radio" value ="male" name="gender" checked>Male
+                      </label>
+                      <label class="radio-inline">
+                        <input type="radio" value = "memale" name="gender">Female
+                      </label>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-6">
+                        <label for="phone" class="sr-only">Phone</label>
+                        <input id="phone" class="form-control input-group-lg reg_name" type="tel" name="phone" title="Enter phone number" placeholder="Phone number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required/>
+                      </div>
+                      <div class="form-group col-xs-6">
+                        <label for="country" class="sr-only"></label>
+                        <select class="form-control" id="school", name = "school">
+                          <option value="country" disabled selected>School</option>
+                          <option value="Northeastern University">Northeastern University</option>
+                          <option value="Boston College">Boston College</option>
+                          <option value="Hervard">Hervard University</option>
+                          <option value="MIT">MIT</option>
+                        </select>
+                      </div>
+                    </div>
+                    <p><a href="#">Already have an account?</a></p>
+                    <button class="btn btn-primary" type="submit">Register Now</button>
+                  </form><!--Register Now Form Ends-->
+
+                </div><!--Registration Form Contents Ends-->
+                
+                <!--Login-->
+                <div class="tab-pane in active" id="login">
+                  <h3>Login</h3>
+                  <p class="text-muted">Log into your account</p>
+                  
+                  <!--Login Form-->
+                  <form name="Login_form" id='Login_form'  method="POST" action="{{ url_for('auth.login') }}">
+                     <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="my-email" class="sr-only" >Email</label>
+                        <input id="my-email" class="form-control input-group-lg" type="text" name="email" title="Enter Email" placeholder="Your Email"/>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="my-password" class="sr-only">Password</label>
+                        <input id="my-password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password"/>
+                      </div>
+                    </div>
+                    <p><a href="#">Forgot Password?</a></p>
+                    <button class="btn btn-primary" type ='submit'>Login Now</button>
+                  </form><!--Login Form Ends--> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-6">
+          
+            <!--Social Icons-->
+            <ul class="list-inline social-icons">
+              <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+              <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+              <li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
+              <li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
+              <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+    
+	</body>
+</html>
+	<!-- jQuery -->
+	<script src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+	
+	<!-- Bootstrap -->
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	
+	<!-- jQuery Appear -->
+	<script src="{{ url_for('static', filename='js/jquery.appear.min.js') }}"></script>
+	
+	<!-- Incremental Counter -->
+	<script src="{{ url_for('static', filename='js/jquery.incremental-counter.js') }}"></script>
+	
+	<!-- Custom Script -->
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<!-- Confirm password -->
+  <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
