@@ -25,7 +25,7 @@ Stuvice is a web-based platform that provides a social network and gig service f
 Stuvice is developed using the following technologies:
 
 - **Front-end Development**: HTML, CSS, JavaScript
-- **Back-end Development**: Python Flask/Django
+- **Back-end Development**: Python (Flask/Django)
 - **Database**: MySQL
 - **Machine Learning Capabilities**: Recurrent Neural Network (RNN): TensorFlow, PyTorch, or other deep learning libraries
 - **Payment Gateway**: Stripe API,
