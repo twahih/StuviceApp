@@ -63,7 +63,7 @@ Alternatively, you can activate the virtual environment without running any scri
 - On Windows, run: `myenv\Scripts\activate`
 - On macOS/Linux, run: `source myenv/bin/activate`
 4. Create a MySQL database by running the `Create_3nf_stuvicedb.sql` file provided in the repository.
-5. Set up the connection variables in the `config.env` file. Open the file and update the following variables with your MySQL database credentials:
+5. Set up the connection variables in the `config.env` file. Open the file and update the following [Username] and [Passoword] with your MySQL database credentials:
 
 Please ensure that you have the required dependencies installed and the virtual environment activated to run Stuvice successfully.
 
