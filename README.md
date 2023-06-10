@@ -31,7 +31,7 @@ Stuvice is developed using the following technologies:
 - **Payment Gateway**: Stripe API,
 - **Email Notification**: PostMark API
 - **Phone Number Usage**: Twilio API
-- **Hosting**: Locally,AWS,Azure,Heroku
+- **Hosting**: Locally, AWS, Azure, GCP, Heroku
 
 By incorporating machine learning capabilities, specifically the use of RNN, Stuvice can leverage deep learning techniques to enhance its services, provide more accurate predictions, and deliver personalized experiences to its users. RNN can enable Stuvice to analyze sequential data, make predictions based on historical patterns, and improve the overall learning service behavior.
 
