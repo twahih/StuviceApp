@@ -27,7 +27,7 @@ Stuvice is developed using the following technologies:
 - **Front-end Development**: HTML, CSS, JavaScript
 - **Back-end Development**: Python
 - **Database**: MySQL
-- **Machine Learning Capabilities**:Recurrent Neural Network (RNN): TensorFlow, PyTorch, or other deep learning libraries
+- **Machine Learning Capabilities**: Recurrent Neural Network (RNN): TensorFlow, PyTorch, or other deep learning libraries
 - **Payment Gateway**: Stripe API,
 - **Email Notification**: PostMark API
 - **Phone Number Usage**: Twilio API
