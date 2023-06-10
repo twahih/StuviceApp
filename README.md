@@ -22,7 +22,7 @@ Stuvice is a web-based platform that provides a social network and gig service f
 
 ## Technology Stack
 
-Stuvice will be developed using the following technologies:
+Stuvice is developed using the following technologies:
 
 - **Front-end Development**: HTML, CSS, JavaScript
 - **Back-end Development**: Python
