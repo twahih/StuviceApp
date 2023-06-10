@@ -27,10 +27,12 @@ Stuvice is developed using the following technologies:
 - **Front-end Development**: HTML, CSS, JavaScript
 - **Back-end Development**: Python
 - **Database**: MySQL
+- **Machine Learning Capabilities**:Recurrent Neural Network (RNN): TensorFlow, PyTorch, or other deep learning libraries
 - **Payment Gateway**: Stripe API,
 - **Email Notification**: PostMark API
 - **Phone Number Usage**: Twilio API
 - **Hosting**: Locally,AWS,Azure,Heroku
+By incorporating machine learning capabilities, specifically the use of RNN, Stuvice can leverage deep learning techniques to enhance its services, provide more accurate predictions, and deliver personalized experiences to its users. RNN can enable Stuvice to analyze sequential data, make predictions based on historical patterns, and improve the overall learning service behavior
 
 ## Step-by-Step User Profile
 
